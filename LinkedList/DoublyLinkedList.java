@@ -28,7 +28,7 @@ class DoublyLinkedList {
         return head == null;
     }
 
-    public void insert(Country country) {
+    public void insertLast(Country country) {
         Node newNode = new Node(country);
         if (isEmpty()) {
             head = newNode;
@@ -37,6 +37,18 @@ class DoublyLinkedList {
             tail.next = newNode;
             newNode.previous = tail;
             tail = newNode;
+        }
+    }
+
+    public void insertFirst(Country country) {
+        Node newNode = new Node(country);
+        if (isEmpty()) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            head.previous = newNode;
+            newNode.next= head;
+            head = newNode;
         }
     }
 

@@ -13,13 +13,12 @@ public class Reader {
 
         try (BufferedReader inputReader = new BufferedReader(new FileReader(filePath))) {
             String line;
-            while ((line = inputReader.readLine()) != null) {
-              
+            while ((line = inputReader.readLine()) != null ) {
                 String[] words = line.split(" ");
                 Country country = new Country(words[0], Integer.parseInt(words[1]), words[2],
                         words[3], words[4], words[5]);
-                countryList.insert(country);
-
+                countryList.insertLast(country);
+               
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,11 +31,11 @@ public class Reader {
             while ((line = queryReader.readLine()) != null) {
                 String[] words = line.split(" ");
                 Node current = countryList.head;
-
+   System.out.println(line);
                 String queryType = words[0];
                 String queryType2 = words[1];
-                String queryType3 = words[2];
-
+                
+             
             
                 while (current != null) {
                     if (queryType.equals("Query")) {
@@ -44,6 +43,7 @@ public class Reader {
                         switch (queryType2) {
 
                             case "population":
+                                String queryType3 = words[2];
                                 int queryPopulation = Integer.parseInt(words[2]);
                                 switch (queryType3) {
                                     case ">":
@@ -71,7 +71,8 @@ public class Reader {
 
                             case "country":
                                 String queryCountryName = words[3];
-                                switch (queryType3) {
+                                String queryType4 = words[2];
+                                switch (queryType4) {
                                     case ">":
                                         while (current != null) {
                                             if (current.data.getCountryName()
@@ -105,7 +106,8 @@ public class Reader {
 
                             case "capital_city":
                                 String queryCapitalCity = words[3];
-                                switch (queryType3) {
+                                String queryType5 = words[2];
+                                switch (queryType5) {
                                     case ">":
                                         while (current != null) {
                                             if (current.data.getCapitalCity()
@@ -139,7 +141,8 @@ public class Reader {
 
                             case "largest_city":
                                 String queryLargestCity = words[3];
-                                switch (queryType3) {
+                                String queryType6 = words[2];
+                                switch (queryType6) {
                                     case ">":
                                         while (current != null) {
                                             if (current.data.getLargestCity()
@@ -174,7 +177,8 @@ public class Reader {
 
                             case "currency":
                                 String queryCurrency = words[3];
-                                switch (queryType3) {
+                                String queryType7 = words[2];
+                                switch (queryType7) {
                                     case ">":
                                         while (current != null) {
                                             if (current.data.getCurrency().compareToIgnoreCase(queryCurrency) > 0) {
@@ -229,7 +233,7 @@ public class Reader {
 
                                 Country countryToAdd = new Country(addCountryName, addPopulation, addCapitalCity,
                                         addLargestCity, addOfficialLanguage, addCurrency);
-                                countryList.insert(countryToAdd);
+                                countryList.insertLast(countryToAdd);
                                 System.out.println("A new country has been added.");
 
                                 break;
