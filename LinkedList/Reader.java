@@ -5,6 +5,17 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Reader {
+
+    private static Integer dotRemover(String str) {
+        String withoutDots = "";
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) != '.') {
+                withoutDots += str.charAt(i);
+            }
+        }
+        return Integer.parseInt(withoutDots);
+    }
+
     public static void main(String[] args) {
 
         // Read the index.txt
@@ -13,12 +24,12 @@ public class Reader {
 
         try (BufferedReader inputReader = new BufferedReader(new FileReader(filePath))) {
             String line;
-            while ((line = inputReader.readLine()) != null ) {
+            while ((line = inputReader.readLine()) != null) {
                 String[] words = line.split(" ");
-                Country country = new Country(words[0], Integer.parseInt(words[1]), words[2],
+                Country country = new Country(words[0], words[1], words[2],
                         words[3], words[4], words[5]);
-                countryList.insertLast(country);
-               
+                countryList.insertFirst(country);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -31,42 +42,39 @@ public class Reader {
             while ((line = queryReader.readLine()) != null) {
                 String[] words = line.split(" ");
                 Node current = countryList.head;
-   System.out.println(line);
                 String queryType = words[0];
                 String queryType2 = words[1];
-                
-             
-            
+
                 while (current != null) {
                     if (queryType.equals("Query")) {
 
                         switch (queryType2) {
 
                             case "population":
-                                String queryType3 = words[2];
-                                int queryPopulation = Integer.parseInt(words[2]);
-                                switch (queryType3) {
-                                    case ">":
-                                        if (current.data.getPopulation() > queryPopulation) {
-                                            current.data.displayCountry();
-                                        }
+                            String queryType3 = words[2];
+                            int queryPopulation = dotRemover(words[3]);
+                            switch (queryType3) {
+                                case ">":
+                                    if (dotRemover(current.data.getPopulation()) > queryPopulation) {
+                                        current.data.displayCountry();
+                                    }
 
-                                        break;
-                                    case "<":
-                                        if (current.data.getPopulation() < queryPopulation) {
-                                            current.data.displayCountry();
-                                        }
+                                    break;
+                                case "<":
+                                    if (dotRemover(current.data.getPopulation()) < queryPopulation) {
+                                        current.data.displayCountry();
+                                    }
 
-                                        break;
-                                    case "=":
-                                        if (current.data.getPopulation() == queryPopulation) {
-                                            current.data.displayCountry();
-                                        }
+                                    break;
+                                case "=":
+                                    if (dotRemover(current.data.getPopulation()) == queryPopulation) {
+                                        current.data.displayCountry();
+                                    }
 
-                                        break;
-                                    default:
-                                        break;
-                                }
+                                    break;
+                                default:
+                                    break;
+                            }
                                 break;
 
                             case "country":
@@ -224,19 +232,21 @@ public class Reader {
                     else {
                         switch (queryType) {
                             case "Add":
-                                String addCountryName = words[1];
-                                int addPopulation = Integer.parseInt(words[2]);
-                                String addCapitalCity = words[3];
-                                String addLargestCity = words[4];
-                                String addOfficialLanguage = words[5];
-                                String addCurrency = words[6];
+                            String addCountryName = words[1];
+                            String addPopulation = words[2];
+                            String addCapitalCity = words[3];
+                            String addLargestCity = words[4];
+                            String addOfficialLanguage = words[5];
+                            String addCurrency = words[6];
 
-                                Country countryToAdd = new Country(addCountryName, addPopulation, addCapitalCity,
-                                        addLargestCity, addOfficialLanguage, addCurrency);
-                                countryList.insertLast(countryToAdd);
-                                System.out.println("A new country has been added.");
+                            Country countryToAdd = new Country(addCountryName, addPopulation, addCapitalCity,
+                                    addLargestCity, addOfficialLanguage, addCurrency);
+                            countryList.insertFirst(countryToAdd);
+                            System.out.println("A new country has been added.");
 
-                                break;
+                            break;
+
+
 
                             case "Delete":
                                 String deleteCountryName = words[1];
@@ -267,7 +277,11 @@ public class Reader {
                                 break;
                         }
                     }
-                    current = current.next;
+                    if (current != null) {
+                        current = current.next;
+                    } else {
+                        break;
+                    }
                 }
             }
         } catch (IOException e) {

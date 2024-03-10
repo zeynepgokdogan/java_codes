@@ -1,13 +1,13 @@
 //Zeynep Gokdogan
 public class Country {
     private String countryName;
-    private int population;
+    private String population;
     private String capitalCity;
     private String largestCity;
     private String officialLanguage;
     private String currency;
 
-    public Country(String countryName, int population, String capitalCity, String largestCity, String officialLanguage,
+    public Country(String countryName, String population, String capitalCity, String largestCity, String officialLanguage,
             String currency) {
         this.countryName = countryName;
         this.population = population;
@@ -22,7 +22,7 @@ public class Country {
         return countryName;
     }
 
-    public int getPopulation() {
+    public String getPopulation() {
         return population;
     }
 
@@ -45,7 +45,4 @@ public class Country {
     public void displayCountry() {
         System.out.println(countryName + " " + population + " " + capitalCity + " " + largestCity + " " + officialLanguage + " " + currency);
     }
-    
-    
-
 }
