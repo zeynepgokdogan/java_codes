@@ -84,6 +84,7 @@ public class Reader {
                     }
                     innerShouldBreak = true;
                     break;
+                    
 
                 case "Delete":
                     System.out.println(line + ":");
@@ -140,7 +141,7 @@ public class Reader {
                         }
                         break;
                     default:
-
+                        System.out.println("Invalid population!!");
                         break;
                 }
                 innerShouldBreak = true;
@@ -177,6 +178,7 @@ public class Reader {
                         }
                         break;
                     default:
+                        System.out.println("Invalid country!!");
                         break;
                 }
                 innerShouldBreak = true;
@@ -213,6 +215,7 @@ public class Reader {
                         }
                         break;
                     default:
+                        System.out.println("Invalid capital_city!!");
                         break;
                 }
                 innerShouldBreak = true;
@@ -249,43 +252,51 @@ public class Reader {
                         }
                         break;
                     default:
+                        System.out.println("Invalid largest_city!!");
                         break;
                 }
                 innerShouldBreak = true;
                 break;
 
             case "currency":
-                String queryCurrency = words[3];
+                String queryCurrency = words[3].toUpperCase();
                 String queryType7 = words[2];
-                switch (queryType7) {
-                    case ">":
-                        while (current != null) {
-                            if (current.data.getCurrency().compareToIgnoreCase(queryCurrency) > 0) {
+                char queryLetter = queryCurrency.charAt(0);
+
+                while (current != null) {
+                    String currencyFirstLetter = current.data.getCurrency().toUpperCase().substring(0, 1);
+
+                    switch (queryType7) {
+                        case ">":
+                            if (Character.compare(queryLetter, currencyFirstLetter.charAt(0)) < 0) {
                                 current.data.displayCountry();
+                                innerShouldBreak = true;
+                                break;
                             }
-                            current = current.next;
-                        }
-                        break;
-                    case "<":
-                        while (current != null) {
-                            if (current.data.getCurrency().compareToIgnoreCase(queryCurrency) < 0) {
+                            break;
+                        case "<":
+                            if (Character.compare(queryLetter, currencyFirstLetter.charAt(0)) > 0) {
                                 current.data.displayCountry();
+                                innerShouldBreak = true;
+                                break;
                             }
-                            current = current.next;
-                        }
-                        break;
-                    case "=":
-                        while (current != null) {
-                            if (current.data.getCurrency().equalsIgnoreCase(queryCurrency)) {
+                            break;
+                        case "=":
+                            if (queryLetter == currencyFirstLetter.charAt(0)) {
                                 current.data.displayCountry();
+                                innerShouldBreak = true;
+                                break;
                             }
-                            current = current.next;
-                        }
-                        break;
-                    default:
-                        break;
+                            break;
+                        default:
+                            System.out.println("Invalid currency!!");
+                            innerShouldBreak = true;
+                            break;
+                    }
+
+                    current = current.next;
+
                 }
-                innerShouldBreak = true;
                 break;
 
             case "print_all":
@@ -294,7 +305,7 @@ public class Reader {
                 break;
 
             default:
-                System.out.println("Invalid query type");
+                System.out.println("Invalid query type!!");
                 innerShouldBreak = true;
                 break;
         }
