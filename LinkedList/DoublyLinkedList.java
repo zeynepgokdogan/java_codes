@@ -56,7 +56,7 @@ class DoublyLinkedList {
     public boolean delete(String country) {
         Node current = head;
         boolean deleted = false;
-    
+
         while (current != null) {
             if (current.data.getCountryName().equalsIgnoreCase(country)) {
                 if (current.previous != null) {
@@ -64,25 +64,23 @@ class DoublyLinkedList {
                 } else {
                     head = current.next;
                 }
-    
+
                 if (current.next != null) {
                     current.next.previous = current.previous;
                 } else {
                     tail = current.previous;
                 }
-    
+
                 deleted = true;
-    
-        
+
                 break;
             }
-    
+
             current = current.next;
         }
-    
+
         return deleted;
     }
-    
 
     public void displayList() {
         Node current = head;

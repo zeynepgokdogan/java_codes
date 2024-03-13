@@ -20,7 +20,6 @@ public class Reader {
 
     public static void main(String[] args) {
 
-        // Read the index.txt
         DoublyLinkedList countryList = new DoublyLinkedList();
         String filePath = "input.txt";
 
@@ -37,7 +36,6 @@ public class Reader {
             e.printStackTrace();
         }
 
-        // Read the query.txt
         String filePath2 = "query.txt";
         try (BufferedReader queryReader = new BufferedReader(new FileReader(filePath2))) {
             String line;
@@ -51,7 +49,6 @@ public class Reader {
             e.printStackTrace();
         }
 
-        countryList.displayList();
     }
 
     private static void processQueries(DoublyLinkedList countryList, String[] words, String line) {
@@ -84,7 +81,6 @@ public class Reader {
                     }
                     innerShouldBreak = true;
                     break;
-                    
 
                 case "Delete":
                     System.out.println(line + ":");
