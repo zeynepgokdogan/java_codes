@@ -40,41 +40,46 @@ public class Reader {
         try (BufferedReader queryReader = new BufferedReader(new FileReader(filePath2))) {
             String line;
             while ((line = queryReader.readLine()) != null) {
+                System.out.println("\n");
+                System.out.println(line);
                 String[] words = line.split(" ");
                 Node current = countryList.head;
                 String queryType = words[0];
                 String queryType2 = words[1];
 
+
+                boolean innerShouldBreak = false;
                 while (current != null) {
                     if (queryType.equals("Query")) {
 
                         switch (queryType2) {
 
                             case "population":
-                            String queryType3 = words[2];
-                            int queryPopulation = dotRemover(words[3]);
-                            switch (queryType3) {
-                                case ">":
-                                    if (dotRemover(current.data.getPopulation()) > queryPopulation) {
-                                        current.data.displayCountry();
-                                    }
+                                String queryType3 = words[2];
+                                int queryPopulation = dotRemover(words[3]);
+                                switch (queryType3) {
+                                    case ">":
+                                        if (dotRemover(current.data.getPopulation()) > queryPopulation) {
+                                            current.data.displayCountry();
+                                        }
 
-                                    break;
-                                case "<":
-                                    if (dotRemover(current.data.getPopulation()) < queryPopulation) {
-                                        current.data.displayCountry();
-                                    }
+                                        break;
+                                    case "<":
+                                        if (dotRemover(current.data.getPopulation()) < queryPopulation) {
+                                            current.data.displayCountry();
+                                        }
 
-                                    break;
-                                case "=":
-                                    if (dotRemover(current.data.getPopulation()) == queryPopulation) {
-                                        current.data.displayCountry();
-                                    }
+                                        break;
+                                    case "=":
+                                        if (dotRemover(current.data.getPopulation()) == queryPopulation) {
+                                            current.data.displayCountry();
+                                        }
 
-                                    break;
-                                default:
-                                    break;
-                            }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                innerShouldBreak= true;
                                 break;
 
                             case "country":
@@ -110,6 +115,7 @@ public class Reader {
                                     default:
                                         break;
                                 }
+                                innerShouldBreak= true;
                                 break;
 
                             case "capital_city":
@@ -145,6 +151,7 @@ public class Reader {
                                     default:
                                         break;
                                 }
+                                innerShouldBreak= true;
                                 break;
 
                             case "largest_city":
@@ -180,7 +187,7 @@ public class Reader {
                                     default:
                                         break;
                                 }
-
+                                innerShouldBreak= true;
                                 break;
 
                             case "currency":
@@ -214,7 +221,7 @@ public class Reader {
                                     default:
                                         break;
                                 }
-
+                                innerShouldBreak= true;
                                 break;
 
                             case "print_all":
@@ -222,9 +229,8 @@ public class Reader {
                                 break;
 
                             default:
-                                System.out.println(
-                                        "here is an element in the text that does not harmonise with the list");
-
+                            System.out.println("Invalid query type");
+                            innerShouldBreak= true;
                                 break;
                         }
                     }
@@ -232,48 +238,31 @@ public class Reader {
                     else {
                         switch (queryType) {
                             case "Add":
-                            String addCountryName = words[1];
-                            String addPopulation = words[2];
-                            String addCapitalCity = words[3];
-                            String addLargestCity = words[4];
-                            String addOfficialLanguage = words[5];
-                            String addCurrency = words[6];
+                                String addCountryName = words[1];
+                                String addPopulation = words[2];
+                                String addCapitalCity = words[3];
+                                String addLargestCity = words[4];
+                                String addOfficialLanguage = words[5];
+                                String addCurrency = words[6];
 
-                            Country countryToAdd = new Country(addCountryName, addPopulation, addCapitalCity,
-                                    addLargestCity, addOfficialLanguage, addCurrency);
-                            countryList.insertFirst(countryToAdd);
-                            System.out.println("A new country has been added.");
+                                Country countryToAdd = new Country(addCountryName, addPopulation, addCapitalCity,
+                                        addLargestCity, addOfficialLanguage, addCurrency);
 
-                            break;
-
-
-
-                            case "Delete":
-                                String deleteCountryName = words[1];
-                                Node deleteCurrent = countryList.head;
-                                while (deleteCurrent != null) {
-                                    if (deleteCurrent.data.getCountryName().equalsIgnoreCase(deleteCountryName)) {
-                                        if (deleteCurrent.previous != null) {
-                                            deleteCurrent.previous.next = deleteCurrent.next;
-                                        } else {
-                                            countryList.head = deleteCurrent.next;
-                                        }
-
-                                        if (deleteCurrent.next != null) {
-                                            deleteCurrent.next.previous = deleteCurrent.previous;
-                                        } else {
-                                            countryList.tail = deleteCurrent.previous;
-                                        }
-
-                                        System.out.println("Silindi: " + deleteCountryName);
-                                        break;
-                                    }
-                                    deleteCurrent = deleteCurrent.next;
+                                if (!countryList.containsCountry(addCountryName)) {
+                                    countryList.insertFirst(countryToAdd);
                                 }
-                                System.out.println(
-                                        "Delete" + deleteCountryName + " Removes the country USA from the list.");
+                                innerShouldBreak= true;
                                 break;
+
+                                case "Delete":
+                                String deleteCountry = words[1];
+                                countryList.delete(deleteCountry);
+                                innerShouldBreak= true;
+                                break;
+
                             default:
+                            System.out.println("Invalid operation type");
+                            innerShouldBreak= true;
                                 break;
                         }
                     }

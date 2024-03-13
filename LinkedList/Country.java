@@ -7,7 +7,8 @@ public class Country {
     private String officialLanguage;
     private String currency;
 
-    public Country(String countryName, String population, String capitalCity, String largestCity, String officialLanguage,
+    public Country(String countryName, String population, String capitalCity, String largestCity,
+            String officialLanguage,
             String currency) {
         this.countryName = countryName;
         this.population = population;
@@ -16,6 +17,11 @@ public class Country {
         this.officialLanguage = officialLanguage;
         this.currency = currency;
 
+    }
+
+    public void displayCountry() {
+        System.out.println(countryName + " " + population + " " + capitalCity + " "
+                + largestCity + " " + officialLanguage + " " + currency);
     }
 
     public String getCountryName() {
@@ -42,7 +48,4 @@ public class Country {
         return currency;
     }
 
-    public void displayCountry() {
-        System.out.println(countryName + " " + population + " " + capitalCity + " " + largestCity + " " + officialLanguage + " " + currency);
-    }
 }
