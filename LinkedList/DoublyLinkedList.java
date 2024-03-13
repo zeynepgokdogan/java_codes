@@ -40,6 +40,18 @@ class DoublyLinkedList {
         }
     }
 
+    public void add(Country country) {
+        Node newNode = new Node(country);
+        if (isEmpty()) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.next = newNode;
+            newNode.previous = tail;
+            tail = newNode;
+        }
+    }
+
     public boolean delete(String country) {
         Node current = head;
         boolean deleted = false;
@@ -60,12 +72,7 @@ class DoublyLinkedList {
     
                 deleted = true;
     
-                if (deleted) {
-                    System.out.println("Delete " + country + ": Removes the country from the list.");
-                } else {
-                    System.out.println("Country not found: " + country);
-                }
-    
+        
                 break;
             }
     
