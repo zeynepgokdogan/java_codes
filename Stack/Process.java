@@ -29,32 +29,38 @@ public class Process {
         line = line.replaceAll("\\s", "");
         OperandStack operandStack = new OperandStack();
         OperatorStack operatorStack = new OperatorStack();
-
-        for (int i = 0; i < line.length(); i++) {
-            char element = line.charAt(i);
+    
+        char[] elements = line.toCharArray();
+        int i = 0;
+        while (i < elements.length) {
+            char element = elements[i];
             if (Character.isDigit(element)) {
-                StringBuilder operand = new StringBuilder();
-                while (i < line.length() && Character.isDigit(line.charAt(i))) {
-                    operand.append(line.charAt(i++));
+                int start = i;
+                while (i < elements.length && Character.isDigit(elements[i])) {
+                    i++;
                 }
+                operandStack.push(Double.parseDouble(line.substring(start, i)));
                 i--;
-                operandStack.push(Double.parseDouble(operand.toString()));
-            } else if (isOperator(element)) {
-                while (!operatorStack.isEmpty()
-                        && TransactionPriority(operatorStack.peek()) >= TransactionPriority(element)) {
-                    ResultOfProcess(operandStack, operatorStack.pop());
-                }
-                operatorStack.push(element);
             } else {
-                return Double.NaN;
+                if (isOperator(element)) {
+                    while (!operatorStack.isEmpty()
+                            && TransactionPriority(operatorStack.peek()) >= TransactionPriority(element)) {
+                        ResultOfProcess(operandStack, operatorStack.pop());
+                    }
+                    operatorStack.push(element);
+                } else {
+                    return Double.NaN;
+                }
             }
+            i++;
         }
+    
         while (!operatorStack.isEmpty()) {
             ResultOfProcess(operandStack, operatorStack.pop());
         }
         return operandStack.pop();
     }
-
+    
 
     private static boolean isOperator(char element) {
         if (element == '+' || element == '-' || element == '*' || element == '/') {
@@ -66,30 +72,30 @@ public class Process {
 
 
     private static void ResultOfProcess(OperandStack operandStack, char operator) {
-        double element_1 = operandStack.pop();
-        double element_2 = operandStack.pop();
+        double number_1 = operandStack.pop();
+        double number_2 = operandStack.pop();
         switch (operator) {
             case '+':
-                double result_addition = element_2 + element_1;
+                double result_addition = number_2 + number_1;
                 operandStack.push(result_addition);
                 break;
 
             case '-':
-                double result_subtraction = element_2 - element_1;
+                double result_subtraction = number_2 - number_1;
                 operandStack.push(result_subtraction);
                 break;
 
             case '*':
-                double result_multiplication = element_2 * element_1;
+                double result_multiplication = number_2 * number_1;
                 operandStack.push(result_multiplication);
                 break;
 
             case '/':
-                if (element_2 == 0) {
+                if (number_2 == 0) {
                     System.out.println("ERROR");
                     operandStack.push(Double.NaN);
                 } else {
-                    double result_division = element_2 / element_1;
+                    double result_division = number_2 / number_1;
                     operandStack.push(result_division);
                 }
 
