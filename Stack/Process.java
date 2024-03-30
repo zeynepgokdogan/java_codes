@@ -13,10 +13,9 @@ public class Process {
             while ((line = infixReader.readLine()) != null) {
                 double result = processStack(line);
                 if (Double.isNaN(result)) {
-                    System.err.println("ERROR: Invalid expresssion");
-                }
-                else{
-                    System.out.println("Result: "+ result);
+                    System.err.println("ERROR !!");
+                } else {
+                    System.out.println("Result: " + result);
                 }
             }
         } catch (Exception E) {
@@ -24,12 +23,27 @@ public class Process {
         }
     }
 
+    private static boolean isOperator(char element) {
+        if (element == '+' || element == '-' || element == '*' || element == '/') {
+            return true;
+        }
+        return false;
+    }
+
+    private static int TransactionPriority(char operator) {
+        if (operator == '+' || operator == '-') {
+            return 1;
+        } else if (operator == '*' || operator == '/') {
+            return 2;
+        }
+        return 0;
+    }
 
     private static double processStack(String line) {
         line = line.replaceAll("\\s", "");
         OperandStack operandStack = new OperandStack();
         OperatorStack operatorStack = new OperatorStack();
-    
+
         char[] elements = line.toCharArray();
         int i = 0;
         while (i < elements.length) {
@@ -39,7 +53,8 @@ public class Process {
                 while (i < elements.length && Character.isDigit(elements[i])) {
                     i++;
                 }
-                operandStack.push(Double.parseDouble(line.substring(start, i)));
+                Double temp = Double.parseDouble(line.substring(start, i));
+                operandStack.push(temp);
                 i--;
             } else {
                 if (isOperator(element)) {
@@ -54,22 +69,12 @@ public class Process {
             }
             i++;
         }
-    
+
         while (!operatorStack.isEmpty()) {
             ResultOfProcess(operandStack, operatorStack.pop());
         }
         return operandStack.pop();
     }
-    
-
-    private static boolean isOperator(char element) {
-        if (element == '+' || element == '-' || element == '*' || element == '/') {
-            return true;
-        }
-        return false;
-    }
-
-
 
     private static void ResultOfProcess(OperandStack operandStack, char operator) {
         double number_1 = operandStack.pop();
@@ -105,16 +110,6 @@ public class Process {
                 break;
         }
 
-    }
-
-
-    private static int TransactionPriority(char operator) {
-        if (operator == '+' || operator == '-') {
-            return 1;
-        } else if (operator == '*' || operator == '/') {
-            return 2;
-        }
-        return 0;
     }
 
 }
