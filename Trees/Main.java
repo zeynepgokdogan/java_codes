@@ -1,4 +1,4 @@
-//zZeynep Gokdogan
+//Zeynep Gokdogan
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -16,8 +16,8 @@ public class Main {
                 String[] data = line.split(",");
                 Contact contact = new Contact(data[0], data[1], data[2], data[3]);
                 cms.insert(contact);
-                System.out.println("Contact details loaded successfully!\n");
             }
+            System.out.println("Contact details loaded successfully!\n");
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + filePath);
         } catch (IOException e) {
@@ -43,39 +43,46 @@ public class Main {
             switch (choice) {
                 case 1:
                     cms.displayPreorder(cms.getRoot());
+                    System.out.println("\n");
                     break;
 
                 case 2:
                     cms.displayInorder(cms.getRoot());
+                    System.out.println("\n");
                     break;
 
                 case 3:
                     cms.displayPostorder(cms.getRoot());
+                    System.out.println("\n");
                     break;
 
                 case 4:
-                    System.out.print("Enter last name to search: ");
+                    System.out.print("Enter the last name of the contact you want to search for:\n");
                     String lastName = input.next();
-                    Contact foundContact = cms.search(lastName); // Searching for the provided last name
+                    Contact foundContact = cms.search(lastName);
                     if (foundContact != null) {
-                        System.out.println("Contact found: " + foundContact);
+                        System.out.println("Contact found: \n-" + foundContact);
                     } else {
                         System.out.println("Contact not found.");
                     }
+                    System.out.println("\n");
                     break;
 
                 case 5:
                     System.out.print("Enter last name to delete: ");
                     lastName = input.next();
-                    cms.delete(lastName); // Deleting the contact with the provided last name
-                    System.out.println("Contact deleted successfully (if found).");
+                    cms.delete(lastName); 
+                    System.out.println("Contact deleted successfully!");
+                    System.out.println("\n");
                     break;
 
                 case 6:
-                    System.out.println("Exiting...");
+                    System.out.println("Exiting and saving contact details to file...");
+                    System.out.println("\n");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
+                    System.out.println("\n");
                     break;
             }
         }
