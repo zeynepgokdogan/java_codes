@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        cms cms = new cms();
+        ContactManagementSystem cms = new ContactManagementSystem();
         String filePath = "contacts.csv";
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -37,52 +37,53 @@ public class Main {
             System.out.println("4. Search for a contact");
             System.out.println("5. Delete a contact");
             System.out.println("6. Exit");
-            System.out.print("Your choice: ");
+            System.out.print("\nYour choice: ");
             choice = input.nextInt();
+            System.out.println("\n");
 
             switch (choice) {
                 case 1:
+                    System.out.println("Displaying contacts (Preorder): ");
                     cms.displayPreorder(cms.getRoot());
                     System.out.println("\n");
                     break;
 
                 case 2:
+                    System.out.println("Displaying contacts (Inorder): ");
                     cms.displayInorder(cms.getRoot());
                     System.out.println("\n");
                     break;
 
                 case 3:
+                    System.out.println("Displaying contacts (Postorder): ");
                     cms.displayPostorder(cms.getRoot());
                     System.out.println("\n");
                     break;
 
                 case 4:
-                    System.out.print("Enter the last name of the contact you want to search for:\n");
+                    System.out.print("Enter the last name of the contact you want to search for: ");
                     String lastName = input.next();
                     Contact foundContact = cms.search(lastName);
                     if (foundContact != null) {
-                        System.out.println("Contact found: \n-" + foundContact);
+                        System.out.println("\nContact found: \n-" + foundContact + "\n");
                     } else {
-                        System.out.println("Contact not found.");
+                        System.out.println("Contact not found.\n");
                     }
-                    System.out.println("\n");
                     break;
 
                 case 5:
-                    System.out.print("Enter last name to delete: ");
+                    System.out.print("Enter the last name of the contact you want to delete: ");
                     lastName = input.next();
-                    cms.delete(lastName); 
-                    System.out.println("Contact deleted successfully!");
-                    System.out.println("\n");
+                    cms.delete(lastName);
+                    System.out.println("\nContact deleted successfully!\n");
                     break;
 
                 case 6:
-                    System.out.println("Exiting and saving contact details to file...");
-                    System.out.println("\n");
+                    System.out.println("Exiting and saving contact details to file...\n");
                     break;
+
                 default:
-                    System.out.println("Invalid choice. Please try again.");
-                    System.out.println("\n");
+                    System.out.println("Invalid choice. Please try again.\n");
                     break;
             }
         }
